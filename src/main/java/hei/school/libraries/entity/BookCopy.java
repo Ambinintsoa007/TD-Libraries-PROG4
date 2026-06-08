@@ -30,4 +30,8 @@ public class BookCopy {
   private String shelfLocation; // rayon A, B
 
   private String status; // Available, OutOfStock
+
+  @ManyToOne
+  @JoinColumn(name = "library_id")
+  private Library library;
 }
