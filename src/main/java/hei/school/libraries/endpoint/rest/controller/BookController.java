@@ -28,9 +28,9 @@ public class BookController {
         return bookService.createBook(book);
     }
 
-    @PutMapping("/{id}")
-    public Book updateBook(@PathVariable String id, @RequestBody Book book) {
-        return bookService.updateBook(id, book);
+    @PatchMapping("/{id}")
+    public Book patchBook(@PathVariable String id, @RequestBody Book book) {
+        return bookService.patchBook(id, book);
     }
 
     @DeleteMapping("/{id}")
