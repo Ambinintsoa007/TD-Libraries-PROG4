@@ -1,5 +1,7 @@
 package hei.school.libraries.entity;
 
+import hei.school.libraries.enums.Format;
+import hei.school.libraries.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,19 +21,23 @@ public class BookCopy {
   private String id;
 
   @ManyToOne
-  @JoinColumn(name = "book_id")
+  @JoinColumn(name = "id_book")
   private Book book;
 
-  private String format; // PaperBack, HardBack, Pocket
+  @ManyToOne
+  @JoinColumn(name = "id_library")
+  private Library library;
+
+  @Enumerated(EnumType.STRING)
+  @Column(columnDefinition = "ENUM('PAPERBACK', 'HARDBACK', 'POCKET')")
+  private Format format;
+
   private Double price;
-  private Integer quantity;
 
   @Column(name = "shelf_location")
-  private String shelfLocation; // rayon A, B
+  private String shelfLocation;
 
-  private String status; // Available, OutOfStock
-
-  @ManyToOne
-  @JoinColumn(name = "library_id")
-  private Library library;
+  @Enumerated(EnumType.STRING)
+  @Column(columnDefinition = "ENUM('AVAILABLE', 'OUT_OF_STOCK', 'RESERVED')")
+  private Status status;
 }
