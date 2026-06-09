@@ -1,5 +1,6 @@
 package hei.school.libraries.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -47,6 +48,7 @@ public class Book {
   @UpdateTimestamp
   private LocalDateTime updatedAt;
 
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
           name = "book_author",
@@ -54,6 +56,7 @@ public class Book {
           inverseJoinColumns = @JoinColumn(name = "id_author"))
   private List<Author> authors = new ArrayList<>();
 
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
           name = "book_genre",
