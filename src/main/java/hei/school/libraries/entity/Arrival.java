@@ -1,7 +1,9 @@
 package hei.school.libraries.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,11 +21,11 @@ public class Arrival {
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  private LocalDate arrivalDate;
-  private String supplier; // fournisseur
-  private Integer quantity;
+  @Column(name = "arrival_date")
+  private LocalDateTime arrivalDate;
 
-  @ManyToOne
-  @JoinColumn(name = "book_copy_id")
-  private BookCopy bookCopy;
+  private String supplier;
+
+  @OneToMany(mappedBy = "arrival")
+  private List<ArrivalLine> arrivalLines = new ArrayList<>();
 }
