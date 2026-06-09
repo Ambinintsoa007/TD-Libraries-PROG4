@@ -21,6 +21,8 @@ public class Genre {
   private String id;
 
   private String name;
+
+  @Column(columnDefinition = "TEXT")
   private String description;
 
   @ManyToMany(mappedBy = "genres")
