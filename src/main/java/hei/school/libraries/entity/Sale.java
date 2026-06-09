@@ -2,10 +2,13 @@ package hei.school.libraries.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import hei.school.libraries.entity.enums.SaleStatus;
 
 @Entity
 @Getter
@@ -20,15 +23,21 @@ public class Sale {
   private String id;
 
   @ManyToOne
-  @JoinColumn(name = "customer_id")
+  @JoinColumn(name = "id_customer")
   private Customer customer;
 
+  @Column(name = "sale_date")
   private LocalDate saleDate;
-  private Double totalAmount;
-  private String paymentMethod; // cash, creditCard
-  private String status; // Paid, Pending, Cancelled
 
-  @ManyToOne
-  @JoinColumn(name = "library_id")
-  private Library library;
+  @Column(name = "total_amount")
+  private Double totalAmount;
+
+  @Enumerated(EnumType.STRING)
+  private SaleStatus status;
+
+  @OneToMany(mappedBy = "sale")
+  private List<SaleItem> saleItems = new ArrayList<>();
+
+  @OneToOne(mappedBy = "sale")
+  private Payment payment;
 }
