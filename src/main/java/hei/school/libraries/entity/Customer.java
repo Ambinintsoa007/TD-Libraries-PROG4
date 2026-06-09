@@ -14,11 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "customer")
-public class Customer {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+public class Customer extends User {
 
   @Column(name = "first_name")
   private String firstName;
