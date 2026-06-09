@@ -30,7 +30,6 @@ public class Payment {
   private LocalDate paymentDate;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "payment_method")
   private PaymentMethod paymentMethod;
 
   private String reference;

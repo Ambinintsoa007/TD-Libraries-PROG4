@@ -25,6 +25,5 @@ public class User {
   private String password;
 
   @Enumerated(EnumType.STRING)
-  @Column(columnDefinition = "ENUM('ADMIN', 'CUSTOMER')")
   private Role role;
 }

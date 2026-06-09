@@ -1,7 +1,7 @@
 package hei.school.libraries.entity;
 
 import hei.school.libraries.enums.Format;
-import hei.school.libraries.enums.Status;
+import hei.school.libraries.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +29,6 @@ public class BookCopy {
   private Library library;
 
   @Enumerated(EnumType.STRING)
-  @Column(columnDefinition = "ENUM('PAPERBACK', 'HARDBACK', 'POCKET')")
   private Format format;
 
   private Double price;
@@ -38,6 +37,5 @@ public class BookCopy {
   private String shelfLocation;
 
   @Enumerated(EnumType.STRING)
-  @Column(columnDefinition = "ENUM('AVAILABLE', 'OUT_OF_STOCK', 'RESERVED')")
   private Status status;
 }
