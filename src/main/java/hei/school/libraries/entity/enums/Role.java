@@ -1,4 +1,4 @@
-package hei.school.libraries.enums;
+package hei.school.libraries.entity.enums;
 
 public enum Role {
     ADMIN, CUSTOMER
