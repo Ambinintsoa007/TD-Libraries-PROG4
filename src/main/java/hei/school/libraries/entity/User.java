@@ -1,12 +1,11 @@
 package hei.school.libraries.entity;
 
+import hei.school.libraries.entity.enums.Role;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -24,9 +23,7 @@ public class User {
   private String username;
   private String email;
   private String password;
-  private String role; // "ADMIN", "CUSTOMER"
 
-  @CreationTimestamp
-  @Column(updatable = false)
-  private LocalDateTime createdAt;
+  @Enumerated(EnumType.STRING)
+  private Role role;
 }
