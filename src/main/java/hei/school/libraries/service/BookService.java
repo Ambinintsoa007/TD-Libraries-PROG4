@@ -28,17 +28,16 @@ public class BookService {
 
   public Book patchBook(String id, Book book) {
     Book found = getBookById(id);
-
     if (book.getTitle() != null) found.setTitle(book.getTitle());
     if (book.getLanguage() != null) found.setLanguage(book.getLanguage());
     if (book.getDescription() != null) found.setDescription(book.getDescription());
     if (book.getCoverUrl() != null) found.setCoverUrl(book.getCoverUrl());
     if (book.getPublicationDate() != null) found.setPublicationDate(book.getPublicationDate());
-
     return bookRepository.save(found);
   }
 
   public void deleteBook(String id) {
+    getBookById(id);
     bookRepository.deleteById(id);
   }
 }

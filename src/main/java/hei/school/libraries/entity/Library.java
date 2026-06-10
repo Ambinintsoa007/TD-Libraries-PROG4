@@ -22,7 +22,7 @@ public class Library {
 
   private String name;
 
-  @Column(name = "adress")
+  @Column(name = "address")
   private String address;
 
   private String phone;

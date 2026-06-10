@@ -30,6 +30,9 @@ public class Book {
   @Column(nullable = false)
   private String title;
 
+  @Column(unique = true)
+  private String isbn;
+
   @Column(nullable = false)
   private String language;
 
