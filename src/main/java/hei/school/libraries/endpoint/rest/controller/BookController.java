@@ -11,30 +11,30 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
+  private final BookService bookService;
 
-    @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooks();
-    }
+  @GetMapping
+  public List<Book> getAllBooks() {
+    return bookService.getAllBooks();
+  }
 
-    @GetMapping("/{id}")
-    public Book getBookById(@PathVariable String id) {
-        return bookService.getBookById(id);
-    }
+  @GetMapping("/{id}")
+  public Book getBookById(@PathVariable String id) {
+    return bookService.getBookById(id);
+  }
 
-    @PostMapping
-    public Book createBook(@RequestBody Book book) {
-        return bookService.createBook(book);
-    }
+  @PostMapping
+  public Book createBook(@RequestBody Book book) {
+    return bookService.createBook(book);
+  }
 
-    @PatchMapping("/{id}")
-    public Book patchBook(@PathVariable String id, @RequestBody Book book) {
-        return bookService.patchBook(id, book);
-    }
+  @PatchMapping("/{id}")
+  public Book patchBook(@PathVariable String id, @RequestBody Book book) {
+    return bookService.patchBook(id, book);
+  }
 
-    @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable String id) {
-        bookService.deleteBook(id);
-    }
+  @DeleteMapping("/{id}")
+  public void deleteBook(@PathVariable String id) {
+    bookService.deleteBook(id);
+  }
 }

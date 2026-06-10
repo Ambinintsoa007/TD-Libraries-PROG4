@@ -1,5 +1,6 @@
 package hei.school.libraries.entity;
 
+import hei.school.libraries.entity.enums.SaleStatus;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import hei.school.libraries.entity.enums.SaleStatus;
 
 @Entity
 @Getter

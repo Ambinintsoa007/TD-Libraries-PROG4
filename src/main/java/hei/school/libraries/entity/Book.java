@@ -45,22 +45,21 @@ public class Book {
   @Column(updatable = false)
   private LocalDateTime createdAt;
 
-  @UpdateTimestamp
-  private LocalDateTime updatedAt;
+  @UpdateTimestamp private LocalDateTime updatedAt;
 
   @JsonIgnore
   @ManyToMany
   @JoinTable(
-          name = "book_author",
-          joinColumns = @JoinColumn(name = "id_book"),
-          inverseJoinColumns = @JoinColumn(name = "id_author"))
+      name = "book_author",
+      joinColumns = @JoinColumn(name = "id_book"),
+      inverseJoinColumns = @JoinColumn(name = "id_author"))
   private List<Author> authors = new ArrayList<>();
 
   @JsonIgnore
   @ManyToMany
   @JoinTable(
-          name = "book_genre",
-          joinColumns = @JoinColumn(name = "id_book"),
-          inverseJoinColumns = @JoinColumn(name = "id_genre"))
+      name = "book_genre",
+      joinColumns = @JoinColumn(name = "id_book"),
+      inverseJoinColumns = @JoinColumn(name = "id_genre"))
   private Set<Genre> genres = new HashSet<>();
 }

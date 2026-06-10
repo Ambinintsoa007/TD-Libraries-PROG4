@@ -14,18 +14,18 @@ import lombok.Setter;
 @Table(name = "sale_item")
 public class SaleItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_sale")
-    private Sale sale;
+  @ManyToOne
+  @JoinColumn(name = "id_sale")
+  private Sale sale;
 
-    @ManyToOne
-    @JoinColumn(name = "id_book_copy")
-    private BookCopy bookCopy;
+  @ManyToOne
+  @JoinColumn(name = "id_book_copy")
+  private BookCopy bookCopy;
 
-    @Column(name = "unit_price")
-    private Double unitPrice;
+  @Column(name = "unit_price")
+  private Double unitPrice;
 }

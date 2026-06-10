@@ -1,6 +1,6 @@
 package hei.school.libraries.entity;
 
-import hei.school.libraries.enums.Format;
+import hei.school.libraries.entity.enums.Format;
 import hei.school.libraries.entity.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
