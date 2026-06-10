@@ -14,17 +14,17 @@ import lombok.Setter;
 @Table(name = "arrival_line")
 public class ArrivalLine {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "id_arrival")
-    private Arrival arrival;
+  @ManyToOne
+  @JoinColumn(name = "id_arrival")
+  private Arrival arrival;
 
-    @ManyToOne
-    @JoinColumn(name = "id_book")
-    private Book book;
+  @ManyToOne
+  @JoinColumn(name = "id_book")
+  private Book book;
 
-    private Integer quantity;
+  private Integer quantity;
 }

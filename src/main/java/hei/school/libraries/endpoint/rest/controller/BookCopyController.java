@@ -2,10 +2,9 @@ package hei.school.libraries.endpoint.rest.controller;
 
 import hei.school.libraries.entity.BookCopy;
 import hei.school.libraries.service.BookCopyService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/bookCopies")
@@ -30,9 +29,7 @@ public class BookCopyController {
   }
 
   @PatchMapping("/{id}")
-  public BookCopy patchBookCopy(
-      @PathVariable String id,
-      @RequestBody BookCopy bookCopy) {
+  public BookCopy patchBookCopy(@PathVariable String id, @RequestBody BookCopy bookCopy) {
     return bookCopyService.patchBookCopy(id, bookCopy);
   }
 

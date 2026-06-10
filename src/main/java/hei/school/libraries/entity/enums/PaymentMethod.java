@@ -1,5 +1,6 @@
 package hei.school.libraries.entity.enums;
 
 public enum PaymentMethod {
-    CASH, CREDIT_CARD
+  CASH,
+  CREDIT_CARD
 }

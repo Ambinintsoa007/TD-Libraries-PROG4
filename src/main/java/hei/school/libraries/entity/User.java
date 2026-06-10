@@ -1,11 +1,11 @@
 package hei.school.libraries.entity;
 
+import hei.school.libraries.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import hei.school.libraries.entity.enums.Role;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
