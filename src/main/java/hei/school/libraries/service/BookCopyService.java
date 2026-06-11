@@ -1,7 +1,9 @@
 package hei.school.libraries.service;
 
+import hei.school.libraries.entity.Book;
 import hei.school.libraries.entity.BookCopy;
 import hei.school.libraries.repository.BookCopyRepository;
+import hei.school.libraries.repository.BookRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class BookCopyService {
 
   private final BookCopyRepository bookCopyRepository;
+  private final BookRepository bookRepository;
 
   public List<BookCopy> getAllBookCopies() {
     return bookCopyRepository.findAll();
@@ -23,6 +26,18 @@ public class BookCopyService {
   }
 
   public BookCopy createBookCopy(BookCopy bookCopy) {
+
+    if (bookCopy.getBook() != null) {
+      String bookId = bookCopy.getBook().getId();
+
+      Book book =
+          bookRepository
+              .findById(bookId)
+              .orElseThrow(() -> new RuntimeException("Book not found : " + bookId));
+
+      bookCopy.setBook(book);
+    }
+
     return bookCopyRepository.save(bookCopy);
   }
 
@@ -30,22 +45,38 @@ public class BookCopyService {
 
     BookCopy found = getBookCopyById(id);
 
-    if (bookCopy.getBook() != null) found.setBook(bookCopy.getBook());
+    if (bookCopy.getBook() != null) {
+      String bookId = bookCopy.getBook().getId();
 
-    if (bookCopy.getLibrary() != null) found.setLibrary(bookCopy.getLibrary());
+      Book book =
+          bookRepository
+              .findById(bookId)
+              .orElseThrow(() -> new RuntimeException("Book not found : " + bookId));
 
-    if (bookCopy.getFormat() != null) found.setFormat(bookCopy.getFormat());
+      found.setBook(book);
+    }
 
-    if (bookCopy.getPrice() != null) found.setPrice(bookCopy.getPrice());
+    if (bookCopy.getFormat() != null) {
+      found.setFormat(bookCopy.getFormat());
+    }
 
-    if (bookCopy.getShelfLocation() != null) found.setShelfLocation(bookCopy.getShelfLocation());
+    if (bookCopy.getPrice() != null) {
+      found.setPrice(bookCopy.getPrice());
+    }
 
-    if (bookCopy.getStatus() != null) found.setStatus(bookCopy.getStatus());
+    if (bookCopy.getShelfLocation() != null) {
+      found.setShelfLocation(bookCopy.getShelfLocation());
+    }
+
+    if (bookCopy.getStatus() != null) {
+      found.setStatus(bookCopy.getStatus());
+    }
 
     return bookCopyRepository.save(found);
   }
 
   public void deleteBookCopy(String id) {
-    bookCopyRepository.deleteById(id);
+    BookCopy found = getBookCopyById(id);
+    bookCopyRepository.delete(found);
   }
 }
