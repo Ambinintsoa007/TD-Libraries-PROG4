@@ -1,8 +1,6 @@
 package hei.school.libraries.entity;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,18 +11,20 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "genre")
-public class Genre {
+@Table(name = "arrival_line")
+public class ArrivalLine {
 
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
 
-  private String name;
+  @ManyToOne
+  @JoinColumn(name = "id_arrival")
+  private Arrival arrival;
 
-  @Column(columnDefinition = "TEXT")
-  private String description;
+  @ManyToOne
+  @JoinColumn(name = "id_book")
+  private Book book;
 
-  @ManyToMany(mappedBy = "genres")
-  private Set<Book> books = new HashSet<>();
+  private Integer quantity;
 }

@@ -12,16 +12,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "admin")
-public class Admin {
+public class Admin extends User {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
-
+  @Column(name = "first_name")
   private String firstName;
-  private String lastName;
 
-  @OneToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+  @Column(name = "last_name")
+  private String lastName;
 }

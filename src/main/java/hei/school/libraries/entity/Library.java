@@ -21,15 +21,12 @@ public class Library {
   private String id;
 
   private String name;
+
+  @Column(name = "address")
   private String address;
+
   private String phone;
 
   @OneToMany(mappedBy = "library")
   private List<BookCopy> bookCopies = new ArrayList<>();
-
-  @OneToMany(mappedBy = "library")
-  private List<Customer> customers = new ArrayList<>();
-
-  @OneToMany(mappedBy = "library")
-  private List<Sale> sales = new ArrayList<>();
 }
