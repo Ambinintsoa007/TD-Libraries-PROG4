@@ -17,12 +17,19 @@ public class BookCopyController {
 
   @GetMapping
   public ResponseEntity<List<BookCopy>> getAllBookCopies() {
-    return ResponseEntity.ok(bookCopyService.getAllBookCopies());
+    return ResponseEntity.status(HttpStatus.OK).body(bookCopyService.getAllBookCopies());
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<BookCopy> getBookCopyById(@PathVariable String id) {
-    return ResponseEntity.ok(bookCopyService.getBookCopyById(id));
+    try {
+      BookCopy bookCopy = bookCopyService.getBookCopyById(id);
+
+      return ResponseEntity.status(HttpStatus.OK).body(bookCopy);
+
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 
   @PostMapping
@@ -36,12 +43,25 @@ public class BookCopyController {
   public ResponseEntity<BookCopy> patchBookCopy(
       @PathVariable String id, @RequestBody BookCopy bookCopy) {
 
-    return ResponseEntity.ok(bookCopyService.patchBookCopy(id, bookCopy));
+    try {
+      BookCopy updatedBookCopy = bookCopyService.patchBookCopy(id, bookCopy);
+
+      return ResponseEntity.status(HttpStatus.OK).body(updatedBookCopy);
+
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteBookCopy(@PathVariable String id) {
-    bookCopyService.deleteBookCopy(id);
-    return ResponseEntity.noContent().build();
+    try {
+      bookCopyService.deleteBookCopy(id);
+
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 }
