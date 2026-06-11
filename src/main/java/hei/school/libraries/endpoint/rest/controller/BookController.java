@@ -17,27 +17,42 @@ public class BookController {
 
   @GetMapping
   public ResponseEntity<List<Book>> getAllBooks() {
-    return ResponseEntity.ok(bookService.getAllBooks());
+    return ResponseEntity.status(HttpStatus.OK).body(bookService.getAllBooks());
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<Book> getBookById(@PathVariable String id) {
-    return ResponseEntity.ok(bookService.getBookById(id));
+    try {
+      Book book = bookService.getBookById(id);
+      return ResponseEntity.status(HttpStatus.OK).body(book);
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 
   @PostMapping
   public ResponseEntity<Book> createBook(@RequestBody Book book) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(bookService.createBook(book));
+    Book createdBook = bookService.createBook(book);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
   }
 
   @PatchMapping("/{id}")
   public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody Book book) {
-    return ResponseEntity.ok(bookService.patchBook(id, book));
+    try {
+      Book updated = bookService.patchBook(id, book);
+      return ResponseEntity.status(HttpStatus.OK).body(updated);
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteBook(@PathVariable String id) {
-    bookService.deleteBook(id);
-    return ResponseEntity.noContent().build();
+    try {
+      bookService.deleteBook(id);
+      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
   }
 }

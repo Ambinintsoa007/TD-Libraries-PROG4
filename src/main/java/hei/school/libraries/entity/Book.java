@@ -51,6 +51,10 @@ public class Book {
   @UpdateTimestamp private LocalDateTime updatedAt;
 
   @JsonIgnore
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<BookCopy> bookCopies = new ArrayList<>();
+
+  @JsonIgnore
   @ManyToMany
   @JoinTable(
       name = "book_author",
