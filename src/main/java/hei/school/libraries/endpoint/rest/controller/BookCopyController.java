@@ -4,6 +4,8 @@ import hei.school.libraries.entity.BookCopy;
 import hei.school.libraries.service.BookCopyService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,27 +16,32 @@ public class BookCopyController {
   private final BookCopyService bookCopyService;
 
   @GetMapping
-  public List<BookCopy> getAllBookCopies() {
-    return bookCopyService.getAllBookCopies();
+  public ResponseEntity<List<BookCopy>> getAllBookCopies() {
+    return ResponseEntity.ok(bookCopyService.getAllBookCopies());
   }
 
   @GetMapping("/{id}")
-  public BookCopy getBookCopyById(@PathVariable String id) {
-    return bookCopyService.getBookCopyById(id);
+  public ResponseEntity<BookCopy> getBookCopyById(@PathVariable String id) {
+    return ResponseEntity.ok(bookCopyService.getBookCopyById(id));
   }
 
   @PostMapping
-  public BookCopy createBookCopy(@RequestBody BookCopy bookCopy) {
-    return bookCopyService.createBookCopy(bookCopy);
+  public ResponseEntity<BookCopy> createBookCopy(@RequestBody BookCopy bookCopy) {
+    BookCopy createdBookCopy = bookCopyService.createBookCopy(bookCopy);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdBookCopy);
   }
 
   @PatchMapping("/{id}")
-  public BookCopy patchBookCopy(@PathVariable String id, @RequestBody BookCopy bookCopy) {
-    return bookCopyService.patchBookCopy(id, bookCopy);
+  public ResponseEntity<BookCopy> patchBookCopy(
+      @PathVariable String id, @RequestBody BookCopy bookCopy) {
+
+    return ResponseEntity.ok(bookCopyService.patchBookCopy(id, bookCopy));
   }
 
   @DeleteMapping("/{id}")
-  public void deleteBookCopy(@PathVariable String id) {
+  public ResponseEntity<Void> deleteBookCopy(@PathVariable String id) {
     bookCopyService.deleteBookCopy(id);
+    return ResponseEntity.noContent().build();
   }
 }
