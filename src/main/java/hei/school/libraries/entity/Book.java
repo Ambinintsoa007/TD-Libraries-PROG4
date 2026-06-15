@@ -30,6 +30,9 @@ public class Book {
   @Column(nullable = false)
   private String title;
 
+  @Column(unique = true)
+  private String isbn;
+
   @Column(nullable = false)
   private String language;
 
@@ -46,6 +49,10 @@ public class Book {
   private LocalDateTime createdAt;
 
   @UpdateTimestamp private LocalDateTime updatedAt;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<BookCopy> bookCopies = new ArrayList<>();
 
   @JsonIgnore
   @ManyToMany
