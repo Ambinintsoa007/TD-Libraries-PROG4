@@ -36,4 +36,12 @@ public class BookSearchService {
         }
         return results;
     }
+
+    public List<Book> searchByGenre(String genre) {
+        List<Book> results = bookSearchRepository.findByGenreName(genre);
+        if (results.isEmpty()) {
+            throw new RuntimeException("Aucun livre trouvé pour le genre : " + genre);
+        }
+        return results;
+    }
 }

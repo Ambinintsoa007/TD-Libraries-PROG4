@@ -46,5 +46,14 @@ public class BookSearchController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @GetMapping("/genre")
+    public ResponseEntity<List<Book>> searchByGenre(@RequestParam("q") String genre) {
+        try {
+            List<Book> books = bookSearchService.searchByGenre(genre);
+            return ResponseEntity.status(HttpStatus.OK).body(books);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 }
