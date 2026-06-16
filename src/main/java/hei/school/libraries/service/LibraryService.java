@@ -1,6 +1,7 @@
 package hei.school.libraries.service;
 
 import hei.school.libraries.entity.Library;
+import hei.school.libraries.exception.NotFoundException;
 import hei.school.libraries.repository.LibraryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ public class LibraryService {
   public Library getLibraryById(String id) {
     return libraryRepository
         .findById(id)
-        .orElseThrow(() -> new RuntimeException("Library not found : " + id));
+        .orElseThrow(() -> new NotFoundException("Library not found : " + id));
   }
 
   public Library createLibrary(Library library) {
