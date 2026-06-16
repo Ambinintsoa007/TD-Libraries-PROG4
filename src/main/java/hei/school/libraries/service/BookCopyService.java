@@ -2,8 +2,10 @@ package hei.school.libraries.service;
 
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.entity.BookCopy;
+import hei.school.libraries.entity.Library;
 import hei.school.libraries.repository.BookCopyRepository;
 import hei.school.libraries.repository.BookRepository;
+import hei.school.libraries.repository.LibraryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ public class BookCopyService {
 
   private final BookCopyRepository bookCopyRepository;
   private final BookRepository bookRepository;
+  private final LibraryRepository libraryRepository;
 
   public List<BookCopy> getAllBookCopies() {
     return bookCopyRepository.findAll();
@@ -38,6 +41,17 @@ public class BookCopyService {
       bookCopy.setBook(book);
     }
 
+    if (bookCopy.getLibrary() != null) {
+      String libraryId = bookCopy.getLibrary().getId();
+
+      Library library =
+          libraryRepository
+              .findById(libraryId)
+              .orElseThrow(() -> new RuntimeException("Library not found : " + libraryId));
+
+      bookCopy.setLibrary(library);
+    }
+
     return bookCopyRepository.save(bookCopy);
   }
 
@@ -54,6 +68,17 @@ public class BookCopyService {
               .orElseThrow(() -> new RuntimeException("Book not found : " + bookId));
 
       found.setBook(book);
+    }
+
+    if (bookCopy.getLibrary() != null) {
+      String libraryId = bookCopy.getLibrary().getId();
+
+      Library library =
+          libraryRepository
+              .findById(libraryId)
+              .orElseThrow(() -> new RuntimeException("Library not found : " + libraryId));
+
+      found.setLibrary(library);
     }
 
     if (bookCopy.getFormat() != null) {
@@ -76,7 +101,12 @@ public class BookCopyService {
   }
 
   public void deleteBookCopy(String id) {
-    BookCopy found = getBookCopyById(id);
+
+    BookCopy found =
+        bookCopyRepository
+            .findById(id)
+            .orElseThrow(() -> new RuntimeException("BookCopy not found : " + id));
+
     bookCopyRepository.delete(found);
   }
 }
