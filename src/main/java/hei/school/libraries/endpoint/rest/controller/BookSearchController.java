@@ -28,4 +28,14 @@ public class BookSearchController {
         }
     }
 
+    @GetMapping("/isbn")
+    public ResponseEntity<List<Book>> searchByIsbn(@RequestParam("q") String isbn) {
+        try {
+            List<Book> books = bookSearchService.searchByIsbn(isbn);
+            return ResponseEntity.status(HttpStatus.OK).body(books);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }

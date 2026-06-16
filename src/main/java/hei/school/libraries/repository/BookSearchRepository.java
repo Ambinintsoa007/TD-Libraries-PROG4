@@ -13,4 +13,7 @@ public interface BookSearchRepository extends JpaRepository<Book, String> {
 
     @Query("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))")
     List<Book> findByTitleContainingIgnoreCase(@Param("title") String title);
+
+    @Query("SELECT b FROM Book b WHERE b.isbn = :isbn")
+    List<Book> findByIsbn(@Param("isbn") String isbn);
 }

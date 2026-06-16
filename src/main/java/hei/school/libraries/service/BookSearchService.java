@@ -21,4 +21,11 @@ public class BookSearchService {
         return results;
     }
 
+    public List<Book> searchByIsbn(String isbn) {
+        List<Book> results = bookSearchRepository.findByIsbn(isbn);
+        if (results.isEmpty()) {
+            throw new RuntimeException("Aucun livre trouvé avec l'ISBN : " + isbn);
+        }
+        return results;
+    }
 }
