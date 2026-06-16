@@ -1,5 +1,6 @@
 package hei.school.libraries.endpoint.rest.controller;
 
+import hei.school.libraries.Dto.BookResponse;
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.service.BookService;
 import java.util.List;
@@ -16,7 +17,7 @@ public class BookController {
   private final BookService bookService;
 
   @GetMapping
-  public ResponseEntity<List<Book>> getAllBooks() {
+  public ResponseEntity<List<BookResponse>> getAllBooks() {
     return ResponseEntity.status(HttpStatus.OK).body(bookService.getAllBooks());
   }
 

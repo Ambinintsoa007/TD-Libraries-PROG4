@@ -1,5 +1,6 @@
 package hei.school.libraries.service;
 
+import hei.school.libraries.Dto.BookResponse;
 import hei.school.libraries.entity.Author;
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.repository.AuthorRepository;
@@ -16,8 +17,18 @@ public class BookService {
   private final BookRepository bookRepository;
   private final AuthorRepository authorRepository;
 
-  public List<Book> getAllBooks() {
-    return bookRepository.findAll();
+  public List<BookResponse> getAllBooks() {
+    return bookRepository.findAll().stream()
+        .map(
+            book ->
+                new BookResponse(
+                    book.getId(),
+                    book.getTitle(),
+                    book.getLanguage(),
+                    book.getDescription(),
+                    book.getCoverUrl(),
+                    book.getPublicationDate()))
+        .toList();
   }
 
   public Book getBookById(String id) {
