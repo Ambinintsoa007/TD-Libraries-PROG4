@@ -39,7 +39,11 @@ public class LibraryService {
   }
 
   public void deleteLibrary(String id) {
-    Library found = getLibraryById(id);
+    Library found =
+        libraryRepository
+            .findById(id)
+            .orElseThrow(() -> new NotFoundException("Library not found : " + id));
+
     libraryRepository.delete(found);
   }
 }
