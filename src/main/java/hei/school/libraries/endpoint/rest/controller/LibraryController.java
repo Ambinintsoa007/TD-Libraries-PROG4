@@ -4,7 +4,8 @@ import hei.school.libraries.entity.Library;
 import hei.school.libraries.service.LibraryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,11 +22,7 @@ public class LibraryController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Library> getById(@PathVariable String id) {
-    try {
-      return ResponseEntity.ok(libraryService.getLibraryById(id));
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.ok(libraryService.getLibraryById(id));
   }
 
   @PostMapping
@@ -35,20 +32,12 @@ public class LibraryController {
 
   @PatchMapping("/{id}")
   public ResponseEntity<Library> update(@PathVariable String id, @RequestBody Library library) {
-    try {
-      return ResponseEntity.ok(libraryService.patchLibrary(id, library));
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.ok(libraryService.patchLibrary(id, library));
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable String id) {
-    try {
-      libraryService.deleteLibrary(id);
-      return ResponseEntity.noContent().build();
-    } catch (RuntimeException e) {
-      return ResponseEntity.notFound().build();
-    }
+    libraryService.deleteLibrary(id);
+    return ResponseEntity.noContent().build();
   }
 }
