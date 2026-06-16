@@ -1,7 +1,10 @@
 package hei.school.libraries.service;
 
+import hei.school.libraries.entity.Author;
 import hei.school.libraries.entity.Book;
+import hei.school.libraries.repository.AuthorRepository;
 import hei.school.libraries.repository.BookRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class BookService {
 
   private final BookRepository bookRepository;
+  private final AuthorRepository authorRepository;
 
   public List<Book> getAllBooks() {
     return bookRepository.findAll();
@@ -40,5 +44,18 @@ public class BookService {
   public void deleteBook(String id) {
     Book found = getBookById(id);
     bookRepository.delete(found);
+  }
+
+  @Transactional
+  public Book addAuthorToBook(String bookId, String authorId) {
+    Book book = getBookById(bookId);
+    Author author =
+        authorRepository
+            .findById(authorId)
+            .orElseThrow(() -> new RuntimeException("Author not found : " + authorId));
+    if (!book.getAuthors().contains(author)) {
+      book.getAuthors().add(author);
+    }
+    return bookRepository.save(book);
   }
 }
