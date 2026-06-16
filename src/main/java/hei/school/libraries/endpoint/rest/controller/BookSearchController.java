@@ -37,5 +37,14 @@ public class BookSearchController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @GetMapping("/author")
+    public ResponseEntity<List<Book>> searchByAuthor(@RequestParam("q") String authorName) {
+        try {
+            List<Book> books = bookSearchService.searchByAuthor(authorName);
+            return ResponseEntity.status(HttpStatus.OK).body(books);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 
 }

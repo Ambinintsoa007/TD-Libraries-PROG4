@@ -28,4 +28,12 @@ public class BookSearchService {
         }
         return results;
     }
+
+    public List<Book> searchByAuthor(String authorName) {
+        List<Book> results = bookSearchRepository.findByAuthorName(authorName);
+        if (results.isEmpty()) {
+            throw new RuntimeException("Aucun livre trouvé pour l'auteur : " + authorName);
+        }
+        return results;
+    }
 }

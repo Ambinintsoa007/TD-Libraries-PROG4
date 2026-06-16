@@ -16,4 +16,14 @@ public interface BookSearchRepository extends JpaRepository<Book, String> {
 
     @Query("SELECT b FROM Book b WHERE b.isbn = :isbn")
     List<Book> findByIsbn(@Param("isbn") String isbn);
+
+    @Query(
+            """
+            SELECT DISTINCT b FROM Book b
+            JOIN b.authors a
+            WHERE LOWER(a.firstName) LIKE LOWER(CONCAT('%', :authorName, '%'))
+               OR LOWER(a.lastName)  LIKE LOWER(CONCAT('%', :authorName, '%'))
+            """)
+    List<Book> findByAuthorName(@Param("authorName") String authorName);
+
 }
