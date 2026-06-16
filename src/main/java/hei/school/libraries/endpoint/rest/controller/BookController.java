@@ -55,4 +55,16 @@ public class BookController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
   }
+
+  @PutMapping("/{id}/authors/{authorId}")
+  public ResponseEntity<Book> addAuthorToBook(
+      @PathVariable String id, @PathVariable String authorId) {
+    try {
+      Book updated = bookService.addAuthorToBook(id, authorId);
+      return ResponseEntity.status(HttpStatus.OK).body(updated);
+    } catch (RuntimeException e) {
+      e.printStackTrace();
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+  }
 }
