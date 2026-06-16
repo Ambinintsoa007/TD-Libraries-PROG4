@@ -18,17 +18,17 @@ public class BookService {
   private final AuthorRepository authorRepository;
 
   public List<BookResponse> getAllBooks() {
-    return bookRepository.findAll()
-            .stream()
-            .map(book -> new BookResponse(
+    return bookRepository.findAll().stream()
+        .map(
+            book ->
+                new BookResponse(
                     book.getId(),
                     book.getTitle(),
                     book.getLanguage(),
                     book.getDescription(),
                     book.getCoverUrl(),
-                    book.getPublicationDate()
-            ))
-            .toList();
+                    book.getPublicationDate()))
+        .toList();
   }
 
   public Book getBookById(String id) {
