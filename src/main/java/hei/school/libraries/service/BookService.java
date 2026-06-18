@@ -3,6 +3,9 @@ package hei.school.libraries.service;
 import hei.school.libraries.Dto.BookResponse;
 import hei.school.libraries.entity.Author;
 import hei.school.libraries.entity.Book;
+import hei.school.libraries.exception.ForbiddenException;
+import hei.school.libraries.exception.NotFoundException;
+import hei.school.libraries.mapper.BookMapper;
 import hei.school.libraries.repository.AuthorRepository;
 import hei.school.libraries.repository.BookRepository;
 import jakarta.transaction.Transactional;
@@ -16,6 +19,7 @@ public class BookService {
 
   private final BookRepository bookRepository;
   private final AuthorRepository authorRepository;
+  private final BookMapper bookMapper;
 
   public List<BookResponse> getAllBooks() {
     return bookRepository.findAll().stream()
@@ -34,7 +38,7 @@ public class BookService {
   public Book getBookById(String id) {
     return bookRepository
         .findById(id)
-        .orElseThrow(() -> new RuntimeException("Book not found : " + id));
+        .orElseThrow(() -> new NotFoundException("Book not found : " + id));
   }
 
   public Book createBook(Book book) {
@@ -43,17 +47,15 @@ public class BookService {
 
   public Book patchBook(String id, Book book) {
     Book found = getBookById(id);
-    if (book.getTitle() != null) found.setTitle(book.getTitle());
-    if (book.getIsbn() != null) found.setIsbn(book.getIsbn());
-    if (book.getLanguage() != null) found.setLanguage(book.getLanguage());
-    if (book.getDescription() != null) found.setDescription(book.getDescription());
-    if (book.getCoverUrl() != null) found.setCoverUrl(book.getCoverUrl());
-    if (book.getPublicationDate() != null) found.setPublicationDate(book.getPublicationDate());
+    bookMapper.patch(found, book);
     return bookRepository.save(found);
   }
 
   public void deleteBook(String id) {
     Book found = getBookById(id);
+    if (!found.getBookCopies().isEmpty()) {
+      throw new ForbiddenException("Cannot delete book with existing copies");
+    }
     bookRepository.delete(found);
   }
 
@@ -63,7 +65,7 @@ public class BookService {
     Author author =
         authorRepository
             .findById(authorId)
-            .orElseThrow(() -> new RuntimeException("Author not found : " + authorId));
+            .orElseThrow(() -> new NotFoundException("Author not found : " + authorId));
     if (!book.getAuthors().contains(author)) {
       book.getAuthors().add(author);
     }
