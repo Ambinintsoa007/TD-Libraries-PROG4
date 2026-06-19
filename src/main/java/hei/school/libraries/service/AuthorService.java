@@ -1,7 +1,11 @@
 package hei.school.libraries.service;
 
 import hei.school.libraries.entity.Author;
+import hei.school.libraries.exception.ForbiddenException;
+import hei.school.libraries.exception.NotFoundException;
+import hei.school.libraries.mapper.AuthorMapper;
 import hei.school.libraries.repository.AuthorRepository;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class AuthorService {
 
   private final AuthorRepository authorRepository;
+  private final AuthorMapper authorMapper;
 
   public List<Author> getAllAuthors() {
     return authorRepository.findAll();
@@ -19,7 +24,7 @@ public class AuthorService {
   public Author getAuthorById(String id) {
     return authorRepository
         .findById(id)
-        .orElseThrow(() -> new RuntimeException("Author not found : " + id));
+        .orElseThrow(() -> new NotFoundException("Author not found : " + id));
   }
 
   public Author createAuthor(Author author) {
@@ -28,16 +33,16 @@ public class AuthorService {
 
   public Author patchAuthor(String id, Author author) {
     Author found = getAuthorById(id);
-    if (author.getFirstName() != null) found.setFirstName(author.getFirstName());
-    if (author.getLastName() != null) found.setLastName(author.getLastName());
-    if (author.getBirthDate() != null) found.setBirthDate(author.getBirthDate());
-    if (author.getNationality() != null) found.setNationality(author.getNationality());
-    if (author.getBiography() != null) found.setBiography(author.getBiography());
+    authorMapper.patch(found, author);
     return authorRepository.save(found);
   }
 
+  @Transactional
   public void deleteAuthor(String id) {
     Author found = getAuthorById(id);
+    if (!found.getBooks().isEmpty()) {
+      throw new ForbiddenException("Cannot delete author with existing books");
+    }
     authorRepository.delete(found);
   }
 }

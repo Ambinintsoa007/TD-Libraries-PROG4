@@ -6,7 +6,6 @@ import hei.school.libraries.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,56 +15,45 @@ public class BookController {
 
   private final BookService bookService;
 
+  private BookResponse toResponse(Book book) {
+    return new BookResponse(
+        book.getId(),
+        book.getTitle(),
+        book.getLanguage(),
+        book.getDescription(),
+        book.getCoverUrl(),
+        book.getPublicationDate());
+  }
+
   @GetMapping
-  public ResponseEntity<List<BookResponse>> getAllBooks() {
-    return ResponseEntity.status(HttpStatus.OK).body(bookService.getAllBooks());
+  public List<BookResponse> getAllBooks() {
+    return bookService.getAllBooks();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Book> getBookById(@PathVariable String id) {
-    try {
-      Book book = bookService.getBookById(id);
-      return ResponseEntity.status(HttpStatus.OK).body(book);
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public BookResponse getBookById(@PathVariable String id) {
+    return toResponse(bookService.getBookById(id));
   }
 
   @PostMapping
-  public ResponseEntity<Book> createBook(@RequestBody Book book) {
-    Book createdBook = bookService.createBook(book);
-    return ResponseEntity.status(HttpStatus.CREATED).body(createdBook);
+  @ResponseStatus(HttpStatus.CREATED)
+  public BookResponse createBook(@RequestBody Book book) {
+    return toResponse(bookService.createBook(book));
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody Book book) {
-    try {
-      Book updated = bookService.patchBook(id, book);
-      return ResponseEntity.status(HttpStatus.OK).body(updated);
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public BookResponse updateBook(@PathVariable String id, @RequestBody Book book) {
+    return toResponse(bookService.patchBook(id, book));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteBook(@PathVariable String id) {
-    try {
-      bookService.deleteBook(id);
-      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteBook(@PathVariable String id) {
+    bookService.deleteBook(id);
   }
 
   @PutMapping("/{id}/authors/{authorId}")
-  public ResponseEntity<Book> addAuthorToBook(
-      @PathVariable String id, @PathVariable String authorId) {
-    try {
-      Book updated = bookService.addAuthorToBook(id, authorId);
-      return ResponseEntity.status(HttpStatus.OK).body(updated);
-    } catch (RuntimeException e) {
-      e.printStackTrace();
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public BookResponse addAuthorToBook(@PathVariable String id, @PathVariable String authorId) {
+    return toResponse(bookService.addAuthorToBook(id, authorId));
   }
 }
