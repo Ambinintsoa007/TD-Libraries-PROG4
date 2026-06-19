@@ -1,11 +1,11 @@
 package hei.school.libraries.endpoint.rest.controller;
 
+import hei.school.libraries.Dto.AuthorResponse;
 import hei.school.libraries.entity.Author;
 import hei.school.libraries.service.AuthorService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,44 +15,40 @@ public class AuthorController {
 
   private final AuthorService authorService;
 
+  private AuthorResponse toResponse(Author author) {
+    return new AuthorResponse(
+        author.getId(),
+        author.getFirstName(),
+        author.getLastName(),
+        author.getBirthDate(),
+        author.getNationality(),
+        author.getBiography());
+  }
+
   @GetMapping
-  public ResponseEntity<List<Author>> getAllAuthors() {
-    return ResponseEntity.status(HttpStatus.OK).body(authorService.getAllAuthors());
+  public List<AuthorResponse> getAllAuthors() {
+    return authorService.getAllAuthors().stream().map(this::toResponse).toList();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Author> getAuthorById(@PathVariable String id) {
-    try {
-      Author author = authorService.getAuthorById(id);
-      return ResponseEntity.status(HttpStatus.OK).body(author);
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public AuthorResponse getAuthorById(@PathVariable String id) {
+    return toResponse(authorService.getAuthorById(id));
   }
 
   @PostMapping
-  public ResponseEntity<Author> createAuthor(@RequestBody Author author) {
-    Author created = authorService.createAuthor(author);
-    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  @ResponseStatus(HttpStatus.CREATED)
+  public AuthorResponse createAuthor(@RequestBody Author author) {
+    return toResponse(authorService.createAuthor(author));
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Author> updateAuthor(@PathVariable String id, @RequestBody Author author) {
-    try {
-      Author updated = authorService.patchAuthor(id, author);
-      return ResponseEntity.status(HttpStatus.OK).body(updated);
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  public AuthorResponse updateAuthor(@PathVariable String id, @RequestBody Author author) {
+    return toResponse(authorService.patchAuthor(id, author));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deleteAuthor(@PathVariable String id) {
-    try {
-      authorService.deleteAuthor(id);
-      return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    } catch (RuntimeException e) {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteAuthor(@PathVariable String id) {
+    authorService.deleteAuthor(id);
   }
 }
