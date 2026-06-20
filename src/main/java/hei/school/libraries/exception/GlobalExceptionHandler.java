@@ -26,6 +26,11 @@ public class GlobalExceptionHandler {
     return buildError(HttpStatus.BAD_REQUEST, e.getMessage());
   }
 
+  @ExceptionHandler(InsufficientStockException.class)
+  public ResponseEntity<Map<String, Object>> handleInsufficientStock(InsufficientStockException e) {
+    return buildError(HttpStatus.CONFLICT, e.getMessage());
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Map<String, Object>> handleGeneric(Exception e) {
     return buildError(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
