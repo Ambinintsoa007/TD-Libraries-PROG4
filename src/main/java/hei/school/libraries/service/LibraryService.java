@@ -1,6 +1,6 @@
 package hei.school.libraries.service;
 
-import hei.school.libraries.Dto.LibraryResponse;
+import hei.school.libraries.dto.LibraryResponse;
 import hei.school.libraries.entity.Library;
 import hei.school.libraries.exception.NotFoundException;
 import hei.school.libraries.mapper.LibraryMapper;
