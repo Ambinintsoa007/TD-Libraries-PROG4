@@ -6,7 +6,6 @@ import hei.school.libraries.service.LibraryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,31 +15,41 @@ public class LibraryController {
 
   private final LibraryService libraryService;
 
+  private LibraryResponse toResponse(Library library) {
+    return new LibraryResponse(
+        library.getId(),
+        library.getName(),
+        library.getAddress(),
+        library.getPhone(),
+        library.getBookCopies().stream().map(bc -> bc.getId()).toList(),
+        library.getCustomers().stream().map(c -> c.getId()).toList(),
+        library.getSales().stream().map(s -> s.getId()).toList());
+  }
+
   @GetMapping
-  public ResponseEntity<List<LibraryResponse>> getAll() {
-    return ResponseEntity.ok(libraryService.getAllLibraries());
+  public List<LibraryResponse> getAllLibraries() {
+    return libraryService.getAllLibraries().stream().map(this::toResponse).toList();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<LibraryResponse> getById(@PathVariable String id) {
-    return ResponseEntity.ok(libraryService.getLibraryById(id));
+  public LibraryResponse getLibraryById(@PathVariable String id) {
+    return toResponse(libraryService.getLibraryById(id));
   }
 
   @PostMapping
-  public ResponseEntity<LibraryResponse> create(@RequestBody Library library) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(libraryService.createLibrary(library));
+  @ResponseStatus(HttpStatus.CREATED)
+  public LibraryResponse createLibrary(@RequestBody Library library) {
+    return toResponse(libraryService.createLibrary(library));
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<LibraryResponse> update(
-      @PathVariable String id, @RequestBody Library library) {
-
-    return ResponseEntity.ok(libraryService.patchLibrary(id, library));
+  public LibraryResponse patchLibrary(@PathVariable String id, @RequestBody Library library) {
+    return toResponse(libraryService.patchLibrary(id, library));
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable String id) {
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteLibrary(@PathVariable String id) {
     libraryService.deleteLibrary(id);
-    return ResponseEntity.noContent().build();
   }
 }
