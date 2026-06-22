@@ -21,9 +21,9 @@ public class LibraryController {
         library.getName(),
         library.getAddress(),
         library.getPhone(),
-        library.getBookCopies().stream().map(bc -> bc.getId()).toList(),
-        library.getCustomers().stream().map(c -> c.getId()).toList(),
-        library.getSales().stream().map(s -> s.getId()).toList());
+        library.getBookCopies().stream().map(bc -> bc.getId()).toList());
+    // library.getCustomers().stream().map(c -> c.getId()).toList(),
+    // library.getSales().stream().map(s -> s.getId()).toList());
   }
 
   @GetMapping
