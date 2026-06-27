@@ -19,6 +19,7 @@ public class BookController {
     return new BookResponse(
         book.getId(),
         book.getTitle(),
+        book.getIsbn(),
         book.getLanguage(),
         book.getDescription(),
         book.getCoverUrl(),
@@ -55,5 +56,17 @@ public class BookController {
   @PutMapping("/{id}/authors/{authorId}")
   public BookResponse addAuthorToBook(@PathVariable String id, @PathVariable String authorId) {
     return toResponse(bookService.addAuthorToBook(id, authorId));
+  }
+
+  @GetMapping("/low-stock")
+  public List<BookResponse> getLowStock(@RequestParam(defaultValue = "5") int threshold) {
+    return bookService.getLowStock(threshold);
+  }
+
+  @PostMapping("/{id}/sell")
+  @ResponseStatus(HttpStatus.OK)
+  public void sellBook(
+      @PathVariable String id, @RequestParam String customerId, @RequestParam int quantity) {
+    bookService.sell(id, customerId, quantity);
   }
 }
