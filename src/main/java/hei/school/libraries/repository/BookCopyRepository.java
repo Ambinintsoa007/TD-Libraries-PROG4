@@ -14,7 +14,8 @@ public interface BookCopyRepository extends JpaRepository<BookCopy, String> {
 
   long countByBook_IdAndStatus(String bookId, Status status);
 
-  @Query("""
+  @Query(
+      """
       SELECT bc FROM BookCopy bc
       WHERE (:bookId IS NULL OR bc.book.id = :bookId)
         AND (:libraryId IS NULL OR bc.library.id = :libraryId)
@@ -24,10 +25,10 @@ public interface BookCopyRepository extends JpaRepository<BookCopy, String> {
         AND (:maxPrice IS NULL OR bc.price <= :maxPrice)
       """)
   List<BookCopy> searchBookCopies(
-          @Param("bookId") String bookId,
-          @Param("libraryId") String libraryId,
-          @Param("status") Status status,
-          @Param("format") Format format,
-          @Param("minPrice") Double minPrice,
-          @Param("maxPrice") Double maxPrice);
+      @Param("bookId") String bookId,
+      @Param("libraryId") String libraryId,
+      @Param("status") Status status,
+      @Param("format") Format format,
+      @Param("minPrice") Double minPrice,
+      @Param("maxPrice") Double maxPrice);
 }

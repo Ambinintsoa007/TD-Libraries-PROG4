@@ -29,9 +29,7 @@ public class BookCopyService {
   private final BookCopyMapper bookCopyMapper;
 
   public List<BookCopyResponse> getAllBookCopies() {
-    return bookCopyRepository.findAll().stream()
-            .map(bookCopyMapper::toResponse)
-            .toList();
+    return bookCopyRepository.findAll().stream().map(bookCopyMapper::toResponse).toList();
   }
 
   public BookCopyResponse getBookCopyById(String id) {
@@ -84,12 +82,12 @@ public class BookCopyService {
   }
 
   public List<BookCopyResponse> searchBookCopies(
-          String bookId,
-          String libraryId,
-          Status status,
-          Format format,
-          Double minPrice,
-          Double maxPrice) {
+      String bookId,
+      String libraryId,
+      Status status,
+      Format format,
+      Double minPrice,
+      Double maxPrice) {
 
     bookId = normalize(bookId);
     libraryId = normalize(libraryId);
@@ -100,34 +98,34 @@ public class BookCopyService {
     validatePriceRange(minPrice, maxPrice);
 
     return bookCopyRepository
-            .searchBookCopies(bookId, libraryId, status, format, minPrice, maxPrice)
-            .stream()
-            .map(bookCopyMapper::toResponse)
-            .toList();
+        .searchBookCopies(bookId, libraryId, status, format, minPrice, maxPrice)
+        .stream()
+        .map(bookCopyMapper::toResponse)
+        .toList();
   }
 
   private BookCopy getBookCopyEntityById(String id) {
     validateUuid(id, "bookCopyId");
 
     return bookCopyRepository
-            .findById(id)
-            .orElseThrow(() -> new NotFoundException("BookCopy not found : " + id));
+        .findById(id)
+        .orElseThrow(() -> new NotFoundException("BookCopy not found : " + id));
   }
 
   private Book getBookEntityById(String bookId) {
     validateUuid(bookId, "bookId");
 
     return bookRepository
-            .findById(bookId)
-            .orElseThrow(() -> new NotFoundException("Book not found : " + bookId));
+        .findById(bookId)
+        .orElseThrow(() -> new NotFoundException("Book not found : " + bookId));
   }
 
   private Library getLibraryEntityById(String libraryId) {
     validateUuid(libraryId, "libraryId");
 
     return libraryRepository
-            .findById(libraryId)
-            .orElseThrow(() -> new NotFoundException("Library not found : " + libraryId));
+        .findById(libraryId)
+        .orElseThrow(() -> new NotFoundException("Library not found : " + libraryId));
   }
 
   private void validateUuid(String id, String fieldName) {

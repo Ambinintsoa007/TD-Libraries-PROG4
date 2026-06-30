@@ -13,34 +13,33 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class LibraryController {
 
-    private final LibraryService libraryService;
+  private final LibraryService libraryService;
 
-    @GetMapping
-    public List<LibraryResponse> getAllLibraries() {
-        return libraryService.getAllLibraries();
-    }
+  @GetMapping
+  public List<LibraryResponse> getAllLibraries() {
+    return libraryService.getAllLibraries();
+  }
 
-    @GetMapping("/{id}")
-    public LibraryResponse getLibraryById(@PathVariable String id) {
-        return libraryService.getLibraryById(id);
-    }
+  @GetMapping("/{id}")
+  public LibraryResponse getLibraryById(@PathVariable String id) {
+    return libraryService.getLibraryById(id);
+  }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public LibraryResponse createLibrary(@RequestBody LibraryRequest request) {
-        return libraryService.createLibrary(request);
-    }
+  @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
+  public LibraryResponse createLibrary(@RequestBody LibraryRequest request) {
+    return libraryService.createLibrary(request);
+  }
 
-    @PatchMapping("/{id}")
-    public LibraryResponse patchLibrary(
-            @PathVariable String id,
-            @RequestBody LibraryRequest request) {
-        return libraryService.patchLibrary(id, request);
-    }
+  @PatchMapping("/{id}")
+  public LibraryResponse patchLibrary(
+      @PathVariable String id, @RequestBody LibraryRequest request) {
+    return libraryService.patchLibrary(id, request);
+  }
 
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteLibrary(@PathVariable String id) {
-        libraryService.deleteLibrary(id);
-    }
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteLibrary(@PathVariable String id) {
+    libraryService.deleteLibrary(id);
+  }
 }

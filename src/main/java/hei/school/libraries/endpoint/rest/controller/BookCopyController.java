@@ -24,12 +24,12 @@ public class BookCopyController {
 
   @GetMapping("/search")
   public List<BookCopyResponse> searchBookCopies(
-          @RequestParam(required = false) String bookId,
-          @RequestParam(required = false) String libraryId,
-          @RequestParam(required = false) Status status,
-          @RequestParam(required = false) Format format,
-          @RequestParam(required = false) Double minPrice,
-          @RequestParam(required = false) Double maxPrice) {
+      @RequestParam(required = false) String bookId,
+      @RequestParam(required = false) String libraryId,
+      @RequestParam(required = false) Status status,
+      @RequestParam(required = false) Format format,
+      @RequestParam(required = false) Double minPrice,
+      @RequestParam(required = false) Double maxPrice) {
     return bookCopyService.searchBookCopies(bookId, libraryId, status, format, minPrice, maxPrice);
   }
 
@@ -46,7 +46,7 @@ public class BookCopyController {
 
   @PatchMapping("/{id}")
   public BookCopyResponse patchBookCopy(
-          @PathVariable String id, @RequestBody BookCopyRequest request) {
+      @PathVariable String id, @RequestBody BookCopyRequest request) {
     return bookCopyService.patchBookCopy(id, request);
   }
 
