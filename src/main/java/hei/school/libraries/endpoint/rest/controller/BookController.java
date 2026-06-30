@@ -1,6 +1,6 @@
 package hei.school.libraries.endpoint.rest.controller;
 
-import hei.school.libraries.Dto.BookResponse;
+import hei.school.libraries.dto.BookResponse;
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.service.BookService;
 import java.util.List;

@@ -4,7 +4,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import hei.school.libraries.Dto.BookResponse;
+import hei.school.libraries.dto.BookResponse;
 import hei.school.libraries.exception.BadRequestException;
 import hei.school.libraries.exception.NotFoundException;
 import hei.school.libraries.service.BookService;

@@ -1,4 +1,4 @@
-package hei.school.libraries.Dto;
+package hei.school.libraries.dto;
 
 import hei.school.libraries.entity.enums.Format;
 import hei.school.libraries.entity.enums.Status;

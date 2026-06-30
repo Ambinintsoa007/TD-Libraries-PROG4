@@ -1,6 +1,6 @@
 package hei.school.libraries.service;
 
-import hei.school.libraries.Dto.BookResponse;
+import hei.school.libraries.dto.BookResponse;
 import hei.school.libraries.entity.Author;
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.entity.BookCopy;

@@ -1,6 +1,6 @@
 package hei.school.libraries.endpoint.rest.controller;
 
-import hei.school.libraries.Dto.AuthorResponse;
+import hei.school.libraries.dto.AuthorResponse;
 import hei.school.libraries.entity.Author;
 import hei.school.libraries.service.AuthorService;
 import java.util.List;

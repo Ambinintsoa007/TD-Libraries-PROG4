@@ -1,4 +1,4 @@
-package hei.school.libraries.Dto;
+package hei.school.libraries.dto;
 
 import java.time.LocalDate;
 
