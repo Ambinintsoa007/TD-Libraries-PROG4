@@ -1,10 +1,22 @@
 package hei.school.libraries.mapper;
 
+import hei.school.libraries.Dto.BookResponse;
 import hei.school.libraries.entity.Book;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper {
+
+  public BookResponse toResponse(Book book) {
+    return new BookResponse(
+        book.getId(),
+        book.getTitle(),
+        book.getIsbn(),
+        book.getLanguage(),
+        book.getDescription(),
+        book.getCoverUrl(),
+        book.getPublicationDate());
+  }
 
   public void patch(Book found, Book update) {
     if (update.getTitle() != null) found.setTitle(update.getTitle());
