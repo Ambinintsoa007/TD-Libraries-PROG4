@@ -13,6 +13,8 @@ import hei.school.libraries.repository.SaleRepository;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +29,31 @@ public class SaleService {
   @Transactional
   public Sale createSale(List<SaleItemRequest> lines) {
 
+    if (lines == null || lines.isEmpty()) {
+      throw new BadRequestException("Sale must contain at least one item");
+    }
+
     for (SaleItemRequest line : lines) {
-      long stock = bookCopyRepository.countByBook_IdAndStatus(line.bookId(), Status.AVAILABLE);
-      if (stock < line.quantity()) {
+      if (line.quantity() <= 0) {
+        throw new BadRequestException("Quantity must be > 0 for book " + line.bookId());
+      }
+    }
+
+    Map<String, Integer> grouped =
+        lines.stream()
+            .collect(
+                Collectors.groupingBy(
+                    SaleItemRequest::bookId, Collectors.summingInt(SaleItemRequest::quantity)));
+
+    for (Map.Entry<String, Integer> entry : grouped.entrySet()) {
+      long stock = bookCopyRepository.countByBook_IdAndStatus(entry.getKey(), Status.AVAILABLE);
+
+      if (stock < entry.getValue()) {
         throw new BadRequestException(
             "Stock insuffisant pour le livre "
-                + line.bookId()
+                + entry.getKey()
                 + " : demandé "
-                + line.quantity()
+                + entry.getValue()
                 + ", disponible "
                 + stock);
       }
@@ -43,16 +62,22 @@ public class SaleService {
     Sale sale = new Sale();
     sale.setSaleDate(LocalDate.now());
     sale.setStatus(SaleStatus.PENDING);
-    saleRepository.save(sale);
+    sale = saleRepository.save(sale);
 
     double total = 0.0;
-    for (SaleItemRequest line : lines) {
-      List<BookCopy> copies =
-          bookCopyRepository
-              .findByBook_IdAndStatus(line.bookId(), Status.AVAILABLE)
-              .subList(0, line.quantity());
 
-      for (BookCopy copy : copies) {
+    for (Map.Entry<String, Integer> entry : grouped.entrySet()) {
+
+      List<BookCopy> copies =
+          bookCopyRepository.findByBook_IdAndStatus(entry.getKey(), Status.AVAILABLE);
+
+      if (copies.size() < entry.getValue()) {
+        throw new BadRequestException("Stock insuffisant pour book " + entry.getKey());
+      }
+
+      for (int i = 0; i < entry.getValue(); i++) {
+
+        BookCopy copy = copies.get(i);
         copy.setStatus(Status.SOLD);
         bookCopyRepository.save(copy);
 
@@ -61,6 +86,8 @@ public class SaleService {
         item.setBookCopy(copy);
         item.setUnitPrice(copy.getPrice());
         saleItemRepository.save(item);
+
+        sale.getSaleItems().add(item);
 
         total += copy.getPrice() != null ? copy.getPrice() : 0.0;
       }
