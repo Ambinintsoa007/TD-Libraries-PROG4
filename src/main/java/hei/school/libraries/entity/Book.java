@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,11 +60,7 @@ public class Book {
       inverseJoinColumns = @JoinColumn(name = "id_author"))
   private List<Author> authors = new ArrayList<>();
 
-  @JsonIgnore
-  @ManyToMany
-  @JoinTable(
-      name = "book_genre",
-      joinColumns = @JoinColumn(name = "id_book"),
-      inverseJoinColumns = @JoinColumn(name = "id_genre"))
-  private Set<Genre> genres = new HashSet<>();
+  @ManyToOne
+  @JoinColumn(name = "id_genre")
+  private Genre genre;
 }
