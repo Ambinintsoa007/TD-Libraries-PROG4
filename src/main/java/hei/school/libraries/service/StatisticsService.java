@@ -5,6 +5,7 @@ import hei.school.libraries.entity.Book;
 import hei.school.libraries.entity.BookCopy;
 import hei.school.libraries.entity.Sale;
 import hei.school.libraries.entity.SaleItem;
+import hei.school.libraries.entity.enums.SaleStatus;
 import hei.school.libraries.repository.SaleRepository;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -23,24 +24,33 @@ public class StatisticsService {
 
     Map<String, BigDecimal> revenueByGenre = new HashMap<>();
 
-    List<Sale> sales = saleRepository.findAll();
+    List<Sale> paidSales = saleRepository.findByStatus(SaleStatus.PAID);
 
-    for (Sale sale : sales) {
-      for (SaleItem item : sale.getSaleItems()) {
+    for (Sale sale : paidSales) {
+      for (SaleItem saleItem : sale.getSaleItems()) {
 
-        BookCopy copy = item.getBookCopy();
-        Book book = copy.getBook();
+        BookCopy bookCopy = saleItem.getBookCopy();
+
+        if (bookCopy == null) {
+          continue;
+        }
+
+        Book book = bookCopy.getBook();
+
+        if (book == null || book.getGenre() == null || saleItem.getUnitPrice() == null) {
+          continue;
+        }
 
         String genreName = book.getGenre().getName();
 
-        BigDecimal price = BigDecimal.valueOf(item.getUnitPrice());
+        BigDecimal revenue = BigDecimal.valueOf(saleItem.getUnitPrice());
 
-        revenueByGenre.merge(genreName, price, BigDecimal::add);
+        revenueByGenre.merge(genreName, revenue, BigDecimal::add);
       }
     }
 
     return revenueByGenre.entrySet().stream()
-        .map(e -> new GenreRevenueResponse(e.getKey(), e.getValue()))
+        .map(entry -> new GenreRevenueResponse(entry.getKey(), entry.getValue()))
         .toList();
   }
 }

@@ -1,6 +1,7 @@
 package hei.school.libraries.repository;
 
 import hei.school.libraries.entity.Sale;
+import hei.school.libraries.entity.enums.SaleStatus;
 import java.util.List;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,5 +17,5 @@ public interface SaleRepository extends JpaRepository<Sale, String> {
         "saleItems.bookCopy.book",
         "saleItems.bookCopy.book.genre"
       })
-  List<Sale> findAll();
+  List<Sale> findByStatus(SaleStatus status);
 }
