@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class StatisticsController {
 
-    private final StatisticsService statisticsService;
+  private final StatisticsService statisticsService;
 
-    @GetMapping("/revenue-by-genre")
-    public List<GenreRevenueResponse> getRevenueByGenre() {
-        return statisticsService.getRevenueByGenre();
-    }
+  @GetMapping("/revenue-by-genre")
+  public List<GenreRevenueResponse> getRevenueByGenre() {
+    return statisticsService.getRevenueByGenre();
+  }
 }
