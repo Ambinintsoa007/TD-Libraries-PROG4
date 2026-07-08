@@ -35,7 +35,7 @@ public class Sale {
   @Enumerated(EnumType.STRING)
   private SaleStatus status;
 
-  @OneToMany(mappedBy = "sale")
+  @OneToMany(mappedBy = "sale", fetch = FetchType.EAGER)
   private List<SaleItem> saleItems = new ArrayList<>();
 
   @OneToOne(mappedBy = "sale")

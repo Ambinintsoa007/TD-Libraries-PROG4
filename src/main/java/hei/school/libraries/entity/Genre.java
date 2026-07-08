@@ -1,8 +1,6 @@
 package hei.school.libraries.entity;
 
 import jakarta.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,4 @@ public class Genre {
 
   @Column(columnDefinition = "TEXT")
   private String description;
-
-  @ManyToMany(mappedBy = "genres")
-  private Set<Book> books = new HashSet<>();
 }

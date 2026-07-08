@@ -1,5 +1,6 @@
 package hei.school.libraries.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public class SaleItem {
 
   @ManyToOne
   @JoinColumn(name = "id_sale")
+  @JsonIgnore
   private Sale sale;
 
   @ManyToOne

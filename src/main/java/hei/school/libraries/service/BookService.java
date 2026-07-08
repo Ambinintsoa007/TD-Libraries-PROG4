@@ -144,7 +144,7 @@ public class BookService {
     double total = 0.0;
     for (int i = 0; i < quantity; i++) {
       BookCopy copy = availableCopies.get(i);
-      copy.setStatus(Status.OUT_OF_STOCK);
+      copy.setStatus(Status.SOLD);
       bookCopyRepository.save(copy);
 
       SaleItem item = new SaleItem();
