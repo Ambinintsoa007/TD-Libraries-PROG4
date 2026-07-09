@@ -69,10 +69,4 @@ public class Book {
       joinColumns = @JoinColumn(name = "id_book"),
       inverseJoinColumns = @JoinColumn(name = "id_genre"))
   private Set<Genre> genres = new HashSet<>();
-
-    public String getId() {
-    }
-
-    public String getTitle() {
-    }
 }
