@@ -1,6 +1,7 @@
 package hei.school.libraries.service;
 
 import hei.school.libraries.Dto.BookResponse;
+import hei.school.libraries.Dto.BookStockResponse;
 import hei.school.libraries.entity.Author;
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.entity.BookCopy;
@@ -114,6 +115,12 @@ public class BookService {
   public long getAvailableStock(String bookId) {
     return bookCopyRepository.countByBook_IdAndStatus(bookId, Status.AVAILABLE);
   }
+
+    public BookStockResponse getBookStock(String bookId) {
+        Book book = getBookById(bookId);
+        long availableStock = getAvailableStock(bookId);
+        return new BookStockResponse(book.getId(), book.getTitle(), availableStock);
+    }
 
   @Transactional
   public Sale sell(String bookId, String customerId, int quantity) {
