@@ -64,10 +64,10 @@ public class BookController {
     return bookService.getLowStock(threshold);
   }
 
-    @GetMapping("/{id}/stock")
-    public BookStockResponse getBookStock(@PathVariable String id) {
-        return bookService.getBookStock(id);
-    }
+  @GetMapping("/{id}/stock")
+  public BookStockResponse getBookStock(@PathVariable String id) {
+    return bookService.getBookStock(id);
+  }
 
   @PostMapping("/{id}/sell")
   @ResponseStatus(HttpStatus.OK)

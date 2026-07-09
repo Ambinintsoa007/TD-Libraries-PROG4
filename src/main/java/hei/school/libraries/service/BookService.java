@@ -116,11 +116,11 @@ public class BookService {
     return bookCopyRepository.countByBook_IdAndStatus(bookId, Status.AVAILABLE);
   }
 
-    public BookStockResponse getBookStock(String bookId) {
-        Book book = getBookById(bookId);
-        long availableStock = getAvailableStock(bookId);
-        return new BookStockResponse(book.getId(), book.getTitle(), availableStock);
-    }
+  public BookStockResponse getBookStock(String bookId) {
+    Book book = getBookById(bookId);
+    long availableStock = getAvailableStock(bookId);
+    return new BookStockResponse(book.getId(), book.getTitle(), availableStock);
+  }
 
   @Transactional
   public Sale sell(String bookId, String customerId, int quantity) {
