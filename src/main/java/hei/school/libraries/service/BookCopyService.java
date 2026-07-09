@@ -44,4 +44,8 @@ public class BookCopyService {
     }
     bookCopyRepository.deleteById(id);
   }
+
+    public List<BookCopy> searchBookCopies(String bookId, Status status) {
+        return bookCopyRepository.findByBook_IdAndStatus(bookId, status);
+    }
 }
