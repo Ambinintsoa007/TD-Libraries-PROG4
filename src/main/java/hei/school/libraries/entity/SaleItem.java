@@ -28,6 +28,6 @@ public class SaleItem {
   @JoinColumn(name = "id_book_copy")
   private BookCopy bookCopy;
 
-  @Column(name = "unit_price")
+  @Column(name = "unit_price", nullable = false)
   private Double unitPrice;
 }
