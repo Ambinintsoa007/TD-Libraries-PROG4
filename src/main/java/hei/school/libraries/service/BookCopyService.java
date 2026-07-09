@@ -2,11 +2,14 @@ package hei.school.libraries.service;
 
 import hei.school.libraries.entity.BookCopy;
 import hei.school.libraries.entity.enums.Status;
+import hei.school.libraries.exception.BadRequestException;
 import hei.school.libraries.exception.ForbiddenException;
 import hei.school.libraries.exception.NotFoundException;
 import hei.school.libraries.mapper.BookCopyMapper;
 import hei.school.libraries.repository.BookCopyRepository;
+import hei.school.libraries.repository.BookRepository;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class BookCopyService {
 
   private final BookCopyRepository bookCopyRepository;
+  private final BookRepository bookRepository;
   private final BookCopyMapper bookCopyMapper;
 
   public List<BookCopy> getAllBookCopies() {
@@ -46,6 +50,30 @@ public class BookCopyService {
   }
 
   public List<BookCopy> searchBookCopies(String bookId, Status status) {
-    return bookCopyRepository.findByBook_IdAndStatus(bookId, status);
+    if (bookId != null) {
+      validateBookExists(bookId);
+    }
+
+    if (bookId != null && status != null) {
+      return bookCopyRepository.findByBook_IdAndStatus(bookId, status);
+    }
+    if (bookId != null) {
+      return bookCopyRepository.findByBook_Id(bookId);
+    }
+    if (status != null) {
+      return bookCopyRepository.findByStatus(status);
+    }
+    return bookCopyRepository.findAll();
+  }
+
+  private void validateBookExists(String bookId) {
+    try {
+      UUID.fromString(bookId);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("Invalid book id format : " + bookId);
+    }
+    if (!bookRepository.existsById(bookId)) {
+      throw new NotFoundException("Book not found : " + bookId);
+    }
   }
 }
