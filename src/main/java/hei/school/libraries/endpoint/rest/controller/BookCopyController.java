@@ -2,6 +2,7 @@ package hei.school.libraries.endpoint.rest.controller;
 
 import hei.school.libraries.Dto.BookCopyResponse;
 import hei.school.libraries.entity.BookCopy;
+import hei.school.libraries.entity.enums.Status;
 import hei.school.libraries.service.BookCopyService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,11 @@ public class BookCopyController {
   public List<BookCopyResponse> getAllBookCopies() {
     return bookCopyService.getAllBookCopies().stream().map(this::toResponse).toList();
   }
+    @GetMapping("/search")
+    public List<BookCopyResponse> searchBookCopies(
+            @RequestParam String bookId, @RequestParam Status status) {
+        return bookCopyService.searchBookCopies(bookId, status).stream().map(this::toResponse).toList();
+    }
 
   @GetMapping("/{id}")
   public BookCopyResponse getBookCopyById(@PathVariable String id) {
