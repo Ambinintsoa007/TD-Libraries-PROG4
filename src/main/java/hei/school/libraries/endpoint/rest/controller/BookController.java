@@ -1,6 +1,7 @@
 package hei.school.libraries.endpoint.rest.controller;
 
 import hei.school.libraries.Dto.BookResponse;
+import hei.school.libraries.Dto.BookStockResponse;
 import hei.school.libraries.entity.Book;
 import hei.school.libraries.service.BookService;
 import java.util.List;
@@ -62,6 +63,11 @@ public class BookController {
   public List<BookResponse> getLowStock(@RequestParam(defaultValue = "5") int threshold) {
     return bookService.getLowStock(threshold);
   }
+
+    @GetMapping("/{id}/stock")
+    public BookStockResponse getBookStock(@PathVariable String id) {
+        return bookService.getBookStock(id);
+    }
 
   @PostMapping("/{id}/sell")
   @ResponseStatus(HttpStatus.OK)
