@@ -2,7 +2,10 @@ package hei.school.libraries.endpoint.rest.controller;
 
 import hei.school.libraries.Dto.BookResponse;
 import hei.school.libraries.Dto.BookStockResponse;
+import hei.school.libraries.Dto.ExternalBookResponse;
 import hei.school.libraries.entity.Book;
+import hei.school.libraries.service.BookExternalService;
+import hei.school.libraries.service.BookImportService;
 import hei.school.libraries.service.BookService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
   private final BookService bookService;
+
+  private final BookExternalService bookExternalService;
+
+  private final BookImportService bookImportService;
 
   private BookResponse toResponse(Book book) {
     return new BookResponse(
@@ -30,6 +37,17 @@ public class BookController {
   @GetMapping
   public List<BookResponse> getAllBooks() {
     return bookService.getAllBooks();
+  }
+
+  @GetMapping("/isbn/{isbn}")
+  public ExternalBookResponse getBookByIsbn(@PathVariable String isbn) {
+    return bookExternalService.findByIsbn(isbn);
+  }
+
+  @PostMapping("/import/isbn/{isbn}")
+  @ResponseStatus(HttpStatus.CREATED)
+  public BookResponse importBookByIsbn(@PathVariable String isbn) {
+    return bookImportService.importByIsbn(isbn);
   }
 
   @GetMapping("/{id}")

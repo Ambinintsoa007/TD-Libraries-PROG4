@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import hei.school.libraries.Dto.BookResponse;
 import hei.school.libraries.exception.BadRequestException;
 import hei.school.libraries.exception.NotFoundException;
+import hei.school.libraries.service.BookExternalService;
+import hei.school.libraries.service.BookImportService;
 import hei.school.libraries.service.BookService;
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +24,10 @@ class BookControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private BookService bookService;
+
+  @MockBean private BookExternalService bookExternalService;
+
+  @MockBean private BookImportService bookImportService;
 
   @Test
   void getBooks_withExistingUUID_shouldReturn200() throws Exception {
