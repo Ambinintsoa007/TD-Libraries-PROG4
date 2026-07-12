@@ -8,6 +8,8 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import hei.school.libraries.Dto.ExternalBookResponse;
+import hei.school.libraries.service.BookExternalService;
 
 @RestController
 @RequestMapping("/books")
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
   private final BookService bookService;
+
+  private final BookExternalService bookExternalService;
 
   private BookResponse toResponse(Book book) {
     return new BookResponse(
@@ -74,5 +78,10 @@ public class BookController {
   public void sellBook(
       @PathVariable String id, @RequestParam String customerId, @RequestParam int quantity) {
     bookService.sell(id, customerId, quantity);
+  }
+
+  @GetMapping("/isbn/{isbn}")
+  public ExternalBookResponse getBookByIsbn(@PathVariable String isbn) {
+    return bookExternalService.findByIsbn(isbn);
   }
 }
