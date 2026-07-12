@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import hei.school.libraries.service.BookExternalService;
+import hei.school.libraries.service.BookImportService;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(BookController.class)
 class BookControllerTest {
@@ -22,6 +25,12 @@ class BookControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean private BookService bookService;
+
+  @MockBean
+  private BookExternalService bookExternalService;
+
+  @MockBean
+  private BookImportService bookImportService;
 
   @Test
   void getBooks_withExistingUUID_shouldReturn200() throws Exception {
